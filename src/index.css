@@ -17,41 +17,83 @@ code {
 }
 
 
-/* Contenedor principal que usa flexbox para organizar los elementos en columna */
+
 .main{
   background-color: #E8E8E8;
   height: 100vh; 
-}
-
-.main-container {
+  font-family: 'Source Sans Pro', sans-serif; 
   display: flex;
   flex-direction: column; 
-  height: 100vh; 
-  font-family: 'Source Sans Pro', sans-serif; 
+  gap: 2rem;
 }
 
 
-.main-container-link{
+ /* estilos de home */
+.buttons-container {
+  display: flex;
+  justify-content: end;
   margin: 2rem;
+  
 }
+.table-container {
+  margin: 0 3rem;
+}
+
+.table-container-container {
+ height: 23rem;
+ max-height: 23rem;
+}
+
+
+.table-container-container {
+  max-height: 30rem;
+  overflow-y: auto; 
+}
+
+.table-container-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-container-container::-webkit-scrollbar-thumb {
+  background-color: #7B183E;
+  border-radius: 10px;
+}
+
+.table-container-container::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+
+/* estilo de los detalles*/
+.details-container-header{
+  margin: 2rem auto 0 2rem;
+}
+
+.details-container-data{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.details-container-info{
+  display: flex;
+  flex-direction: column;
+  margin: 0 3rem
+}
+
+
+
 
 .main-font {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-.buttons-container {
-  display: flex;
-  justify-content: end;
-  margin: 2rem 2rem 2rem auto;
-}
+
 .buttons-container button:first-of-type {
   margin-right: 1rem;
   background: seagreen;
 }
 
-.table-div{
-  margin: 2rem 3rem;
-}
 
 .main-container-details{
   display: flex;
@@ -66,7 +108,6 @@ code {
   margin: auto 3rem;
   
 }
-
 
 
 .main-container-details-data h2{

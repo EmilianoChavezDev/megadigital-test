@@ -16,7 +16,6 @@ import GraphicsModal from "../components/GraphicsModal";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ConfirmModal from "../components/ConfirmModal";
-import CustomTable from "../components/CustomTable";
 
 interface User {
   id: number;
@@ -41,7 +40,7 @@ function HomeView() {
   const { data: posteoList } = useGetAxios<Post[]>("/posts");
   const [rows, setRows] = useState<User[]>([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const navigate = useNavigate();
   const [showGraphicsModal, setShowGraphicsModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -100,15 +99,6 @@ function HomeView() {
     rowsPerPage
   );
 
-  const columns: { label: any; accessor: keyof User | "acciones" }[] = [
-    { label: "Nombre", accessor: "name" },
-    { label: "Username", accessor: "username" },
-    { label: "Email", accessor: "email" },
-    { label: "Teléfono", accessor: "phone" },
-    { label: "Dirección", accessor: "address" },
-    { label: "Acciones", accessor: "acciones" },
-  ];
-
   return (
     <div
       style={{
@@ -132,146 +122,138 @@ function HomeView() {
           />
         </div>
       ) : (
-        <>
-          <div className="main-container">
-            <div className="buttons-container">
-              <Button
-                variant="contained"
-                onClick={() => handleConfirmModal()}
-                startIcon={<FileDownloadIcon />}
+        <div className="main">
+          <div className="buttons-container">
+            <Button
+              variant="contained"
+              onClick={() => handleConfirmModal()}
+              startIcon={<FileDownloadIcon />}
+            >
+              Exportar a Excel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => handleGraphicsModal()}
+              startIcon={<AnalyticsIcon />}
+            >
+              Mirar Grafico
+            </Button>
+          </div>
+
+          <div className="table-container">
+            <TableContainer
+              component={Paper}
+              className="table-container-container"
+            >
+              <Table
+                stickyHeader
+                sx={{
+                  minWidth: 650,
+                  fontFamily: "'Source Sans Pro', sans-serif",
+                }}
               >
-                Exportar a Excel
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => handleGraphicsModal()}
-                startIcon={<AnalyticsIcon />}
-              >
-                Mirar Grafico
-              </Button>
-            </div>
-            <main>
-              <div className="table-div">
-                <TableContainer component={Paper}>
-                  <Table
-                    sx={{
-                      minWidth: 650,
-                      fontFamily: "'Source Sans Pro', sans-serif",
-                    }}
-                  >
-                    <TableHead>
+                <TableHead>
+                  <TableRow>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        color: "white",
+                        backgroundColor: "#7B183E",
+                      }}
+                    >
+                      Nombre
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        color: "white",
+                        backgroundColor: "#7B183E",
+                      }}
+                    >
+                      Username
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        color: "white",
+                        backgroundColor: "#7B183E",
+                      }}
+                    >
+                      Email
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        color: "white",
+                        backgroundColor: "#7B183E",
+                      }}
+                    >
+                      Telefono
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        color: "white",
+                        backgroundColor: "#7B183E",
+                      }}
+                    >
+                      Direccion
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        color: "white",
+                        backgroundColor: "#7B183E",
+                      }}
+                    >
+                      Acciones
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+
+                <TableBody>
+                  {rows
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => (
                       <TableRow
+                        key={row.id}
                         sx={{
-                          backgroundColor: "#7B183E",
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&:hover": { backgroundColor: "#f5f5f5" },
                         }}
                       >
-                        <TableCell
-                          align="center"
-                          sx={{
-                            color: "white",
-                          }}
-                        >
-                          Nombre
+                        <TableCell component="th" scope="row" align="center">
+                          {row.name}
                         </TableCell>
+                        <TableCell align="center">{row.username}</TableCell>
+                        <TableCell align="center">{row.email}</TableCell>
+                        <TableCell align="center">{row.phone}</TableCell>
+                        <TableCell align="center">{row.address.city}</TableCell>
                         <TableCell
                           align="center"
-                          sx={{
-                            color: "white",
-                          }}
+                          onClick={() => handleClickClient(row.id.toString())}
                         >
-                          Username
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          sx={{
-                            color: "white",
-                          }}
-                        >
-                          Email
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          sx={{
-                            color: "white",
-                          }}
-                        >
-                          Telefono
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          sx={{
-                            color: "white",
-                          }}
-                        >
-                          Direccion
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          sx={{
-                            color: "white",
-                          }}
-                        >
-                          Acciones
+                          <Tooltip title="Ver Detalles">
+                            <VisibilityIcon className="cursorPointer" />
+                          </Tooltip>
                         </TableCell>
                       </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {rows
-                        .slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
-                        .map((row) => (
-                          <TableRow
-                            key={row.id}
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                              "&:hover": {
-                                backgroundColor: "#f5f5f5",
-                              },
-                            }}
-                          >
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              align="center"
-                            >
-                              {row.name}
-                            </TableCell>
-                            <TableCell align="center">{row.username}</TableCell>
-                            <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.phone}</TableCell>
-                            <TableCell align="center">
-                              {row.address.city}
-                            </TableCell>
-                            <TableCell
-                              align="center"
-                              onClick={() =>
-                                handleClickClient(row.id.toString())
-                              }
-                            >
-                              <Tooltip title="Ver Detalles">
-                                <VisibilityIcon className="cursorPointer" />
-                              </Tooltip>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25, { label: "All", value: 100 }]}
-                  component="div"
-                  count={rows.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </div>
-            </main>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, { label: "All", value: 100 }]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           </div>
+
           <div>
             <GraphicsModal
               show={showGraphicsModal}
@@ -287,7 +269,7 @@ function HomeView() {
               message={`Se descargará los datos de ${filesToDownload} usuarios de la lista`}
             />
           </div>
-        </>
+        </div>
       )}
     </div>
   );

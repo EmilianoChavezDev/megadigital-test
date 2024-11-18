@@ -39,7 +39,7 @@ const UserDetailsView: React.FC = () => {
 
   const [album, setAlbum] = useState<Album[]>([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [showGraphicsModal, setShowGraphicsModal] = useState(false);
   const [albumId, setAlbumId] = useState<number>(0);
   const [albumName, setAlbumName] = useState<string>("");
@@ -74,7 +74,7 @@ const UserDetailsView: React.FC = () => {
   };
 
   return (
-    <div className="main-container">
+    <div className="main">
       {loading ? (
         <div
           style={{
@@ -92,102 +92,117 @@ const UserDetailsView: React.FC = () => {
           />
         </div>
       ) : (
-        <div className="main">
-          <Breadcrumbs
-            separator={<ChevronRightIcon fontSize="small" />}
-            aria-label="breadcrumb"
-            sx={{
-              margin: "2rem auto 2rem 2rem",
-            }}
-          >
-            <Link
-              component={RouterLink}
-              to="/"
-              underline="hover"
-              color="inherit"
-              style={{ fontWeight: 600 }}
-            >
-              Home
-            </Link>
-            <span style={{ fontWeight: 600 }}>Details / {usuarios?.name}</span>
-          </Breadcrumbs>
-
-          <div className="main-container-details-data">
-            <h2>
-              <span className="main-container-details-data-span">
-                Álbumes de
-              </span>
-              {usuarios?.name}
-            </h2>
-            <span>{usuarios?.email}</span>
-            <span>{usuarios?.phone}</span>
+        <div className="">
+          <div>
+            <div className="details-container-header">
+              <Breadcrumbs
+                separator={<ChevronRightIcon fontSize="small" />}
+                aria-label="breadcrumb"
+              >
+                <Link
+                  component={RouterLink}
+                  to="/"
+                  underline="hover"
+                  color="inherit"
+                  style={{ fontWeight: 600 }}
+                >
+                  Home
+                </Link>
+                <span style={{ fontWeight: 600 }}>
+                  Details / {usuarios?.name}
+                </span>
+              </Breadcrumbs>
+            </div>
           </div>
-          <div className="table-div">
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow
-                    sx={{
-                      backgroundColor: "#7B183E",
-                    }}
-                  >
-                    <TableCell
-                      align="left"
-                      sx={{
-                        color: "white",
-                      }}
-                    >
-                      Álbum
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{
-                        color: "white",
-                      }}
-                    >
-                      Acciones
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {album
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => (
-                      <TableRow
-                        key={row.id}
+
+          <div className="details-container-data">
+            <div className="details-container-info">
+              <h2>
+                <span className="main-container-details-data-span">
+                  Álbumes de
+                </span>
+                {usuarios?.name}
+              </h2>
+              <span>{usuarios?.email}</span>
+              <span>{usuarios?.phone}</span>
+            </div>
+
+            <div className="table-container">
+              <TableContainer
+                component={Paper}
+                className="table-container-container"
+              >
+                <Table
+                  stickyHeader
+                  sx={{
+                    minWidth: 650,
+                    fontFamily: "'Source Sans Pro', sans-serif",
+                  }}
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell
+                        align="left"
                         sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&:hover": {
-                            backgroundColor: "#f5f5f5",
-                          },
+                          color: "white",
+                          backgroundColor: "#7B183E",
                         }}
                       >
-                        <TableCell component="th" scope="row" align="left">
-                          {row.title}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          onClick={() => handleImagesModal(row.id, row.title)}
+                        Álbum
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          color: "white",
+                          backgroundColor: "#7B183E",
+                        }}
+                      >
+                        Acciones
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {album
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row) => (
+                        <TableRow
+                          key={row.id}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                            "&:hover": {
+                              backgroundColor: "#f5f5f5",
+                            },
+                          }}
                         >
-                          <Tooltip title="Ver Album">
-                            <VisibilityIcon className="cursorPointer" />
-                          </Tooltip>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: "All", value: 100 }]}
-              component="div"
-              count={album.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+                          <TableCell component="th" scope="row" align="left">
+                            {row.title}
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            onClick={() => handleImagesModal(row.id, row.title)}
+                          >
+                            <Tooltip title="Ver Album">
+                              <VisibilityIcon className="cursorPointer" />
+                            </Tooltip>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: "All", value: 100 }]}
+                component="div"
+                count={album.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </div>
           </div>
           <ImagesModal
             show={showGraphicsModal}

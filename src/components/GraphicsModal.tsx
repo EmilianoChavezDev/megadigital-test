@@ -32,7 +32,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%",
+  width: "90%",
   height: "40%",
   bgcolor: "background.paper",
   border: "2px solid #000",
@@ -76,7 +76,7 @@ const GraphicsModal: React.FC<GraphicsModalProps> = ({
           sx={{
             fontWeight: "bold",
             textAlign: "center",
-            mb: 2,
+           
           }}
         >
           Informe sobre publicaciones de usuarios
@@ -84,9 +84,9 @@ const GraphicsModal: React.FC<GraphicsModalProps> = ({
 
         <BarChart
           series={[{ data, label: "Cantidad de posteos", color: "#7B183E" }]}
-          height={290}
+          height={260}
           xAxis={[{ data: userNames, scaleType: "band" }]}
-          margin={{ top: 60, bottom: 30, left: 20, right: 10 }}
+          margin={{ top: 70, bottom: 40, left: 20, right: 10 }}
           sx={{
             color: "#7B183E",
           }}

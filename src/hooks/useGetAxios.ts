@@ -11,7 +11,7 @@ const useGetAxios = <T>(path: string) => {
       try {
         setLoading(true);
         const response: AxiosResponse<T> = await axios.get(
-          `${process.env.REACT_APP_API_URL}${path}`
+          `${import.meta.env.VITE_API_URL}${path}`
         );
         setData(response.data);
       } catch (err: any) {
