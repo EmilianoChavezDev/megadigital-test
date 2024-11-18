@@ -32,7 +32,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%",
+  width: "90%",
   height: "80%",
   bgcolor: "white",
   overflowY: "auto",
@@ -100,7 +100,7 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setCurrentPage(0); // Resetea a la primera página
+    setCurrentPage(0);
   };
 
   const paginatedPhotos = photos.slice(
@@ -145,20 +145,42 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
                 borderBottom: "1px solid #ddd",
               }}
             >
-              <Typography id="modal-title" variant="h6" component="h2">
-                <span className="modal-album-name">{albumName}</span>
-              </Typography>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div>
+                  <Typography id="modal-title" variant="h6" component="h2">
+                    <span className="modal-album-name">{albumName}</span>
+                  </Typography>
 
-              <Typography className="modal-album-name-result">
-                {resultado} foto(s)
-              </Typography>
+                  <Typography className="modal-album-name-result">
+                    {resultado} foto(s)
+                  </Typography>
+                </div>
+                <TablePagination
+                  component="div"
+                  count={photos.length}
+                  page={currentPage}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  rowsPerPageOptions={[5, 10, 25, 100]}
+                  sx={{
+                    color: "white",
+                  }}
+                />
+              </div>
             </Box>
 
             <Card
               sx={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
                 gap: "2rem",
+                alignItems: "stretch", // Ajusta la altura de cada tarjeta automáticamente
                 borderRadius: "1rem",
                 boxShadow: 0,
                 p: 3,
@@ -216,15 +238,6 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
                 </CardActionArea>
               ))}
             </Card>
-            <TablePagination
-              component="div"
-              count={photos.length}
-              page={currentPage}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              rowsPerPageOptions={[5, 10, 25, 100]}
-            />
           </Box>
         )}
       </Modal>

@@ -39,6 +39,7 @@ const style = {
   boxShadow: 24,
   p: 4,
   overflowY: "auto",
+  borderRadius: "1rem",
 };
 
 const GraphicsModal: React.FC<GraphicsModalProps> = ({
