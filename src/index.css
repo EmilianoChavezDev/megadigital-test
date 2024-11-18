@@ -1,0 +1,180 @@
+
+body {
+  margin: 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+
+/* Contenedor principal que usa flexbox para organizar los elementos en columna */
+.main{
+  background-color: #E8E8E8;
+  height: 100vh; 
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column; 
+  height: 100vh; 
+  font-family: 'Source Sans Pro', sans-serif; 
+}
+
+
+.main-container-link{
+  margin: 2rem;
+}
+
+.main-font {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: end;
+  margin: 2rem 2rem 2rem auto;
+}
+.buttons-container button:first-of-type {
+  margin-right: 1rem;
+  background: seagreen;
+}
+
+.table-div{
+  margin: 2rem 3rem;
+}
+
+.main-container-details{
+  display: flex;
+  flex-direction: column;
+  
+}
+
+
+.main-container-details-data{
+  display: flex;
+  flex-direction: column;
+  margin: auto 3rem;
+  
+}
+
+
+
+.main-container-details-data h2{
+  color: black;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.main-container-details-data-span {
+  font-weight: normal;
+  font-style: normal;
+  font-size: inherit;
+  color: #808080;
+  margin-right: 0.3rem;
+  text-transform: lowercase;
+  font-family: 'Source Sans Pro', sans-serif;
+  
+}
+
+.main-container-details-data-span span {
+  font-weight: bold;
+  font-size: inherit;
+  color: #282A35;
+  margin-right: 0.3rem;
+  text-transform: lowercase;
+  font-family: 'Source Sans Pro', sans-serif; 
+}
+
+.main-container-details-data h2 {
+  margin-bottom: 0.5rem;
+}
+
+.modal-album-name {
+  color: white;
+  font-family: 'Source Sans Pro', sans-serif; 
+}
+.modal-album-name-result {
+  color: #a5a5a5;
+  font-family: 'Source Sans Pro', sans-serif; 
+}
+
+
+/*Zoom de la imagen*/
+.gallery-container {
+  padding: 20px;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.thumbnail {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  max-height: 90%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.zoomed-image {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 8px;
+}
+
+.close-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #0056b3;
+}
