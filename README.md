@@ -1,6 +1,6 @@
 # Proyecto: Prueba Tecnica para Megadigital
 
-Este proyecto es una aplicación web desarrollada como parte de una prueba técnica en desarrollo frontend. Fue creado utilizando **React.js** con la configuración de **Vite**, estilizado con **Material-UI** y **CSS puro**.
+Este proyecto es una aplicación web desarrollada como parte de una prueba técnica en desarrollo frontend. Fue creado utilizando **React.js** con la configuración de **Vite**, estilizado con **Material-UI** y **CSS puro**, y con utilizacion de la API JSONPlaceHolder(https://jsonplaceholder.typicode.com/).
 
 
 ## 🛠️ Tecnologías utilizadas
