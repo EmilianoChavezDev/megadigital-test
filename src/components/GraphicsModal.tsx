@@ -54,7 +54,11 @@ const GraphicsModal: React.FC<GraphicsModalProps> = ({
       aria-describedby="modal-description"
     >
       <Box className="graphics-container">
-        <Typography id="modal-title" variant="h6" component="h2">
+        <Typography id="modal-title" variant="h6" component="h2"
+          sx={{
+            fontFamily: "'Source Sans Pro', sans-serif",
+          }}
+        >
           Reporte sobre publicaciones de usuarios
         </Typography>
 

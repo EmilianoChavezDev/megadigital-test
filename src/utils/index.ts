@@ -13,7 +13,6 @@ const flattenObject = (obj: any, prefix: string = ""): any => {
       result[newKey] = obj[key];
     }
   }
-
   return result;
 };
 
@@ -27,7 +26,7 @@ export const exportToExcel = (
   const ws = XLSX.utils.json_to_sheet(flattenedData);
   const wb = XLSX.utils.book_new();
   console.log(flattenedData);
-  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+  XLSX.utils.book_append_sheet(wb, ws, "Hoja 1");
   XLSX.writeFile(wb, fileName);
 };
 
@@ -36,4 +35,13 @@ export const getNestedValue = (obj: any, path: string) => {
   return path
     .split(".")
     .reduce((acc, part) => (acc ? acc[part] : undefined), obj);
+};
+
+
+export const calculateItemsToProcess = (
+  totalItems: number,
+  currentPage: number,
+  itemsPerPage: number
+): number => {
+  return Math.min(totalItems - currentPage * itemsPerPage, itemsPerPage);
 };

@@ -32,7 +32,6 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
 }) => {
   const { data, loading } = useGetAxios<Photos[]>(`/photos?albumId=${albumId}`);
   const [photos, setPhotos] = useState<Photos[]>([]);
-  const [resultado, setResultado] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedPhoto, setSelectedPhoto] = useState<Photos | null>(null);
@@ -46,7 +45,6 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
         url: data.url,
         thumbnailUrl: data.thumbnailUrl,
       })) || [];
-    setResultado(data?.length || 0);
     setPhotos(formatearPhotos);
   }, [data]);
 
@@ -122,8 +120,7 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
                   component="h2"
                   sx={{
                     color: "white",
-                    marginBottom: "10px",
-                    fontFamily: "'Oswald', sans-serif",
+                    fontFamily: "'Source Sans Pro', sans-serif",
                   }}
                 >
                   {albumName}
@@ -133,9 +130,11 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
                   className="modal-album-name-result"
                   sx={{
                     marginBottom: "20px",
+                    fontFamily: "'Source Sans Pro', sans-serif",
+
                   }}
                 >
-                  {resultado} foto(s)
+                  {photos?.length} foto(s)
                 </Typography>
               </div>
 

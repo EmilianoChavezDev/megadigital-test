@@ -8,19 +8,6 @@ interface ConfirmModalProps {
   alert: string;
 }
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 300,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: "1rem",
-};
-
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
   show,
   onClose,
@@ -35,7 +22,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box className="container-confirm-modal">
         <Typography id="modal-modal-title" variant="h6" component="h2">
           {alert}
         </Typography>

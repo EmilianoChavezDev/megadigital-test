@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useGetAxios from "../hooks/useGetAxios";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Button, CircularProgress } from "@mui/material";
-import { exportToExcel } from "../utils";
+import { calculateItemsToProcess, exportToExcel } from "../utils";
 import { useNavigate } from "react-router-dom";
 import GraphicsModal from "../components/GraphicsModal";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
@@ -69,6 +69,8 @@ function HomeView() {
     setPage(0);
   };
 
+
+  // nos dirige a la pagina de detalles del usuario
   const handleClickClient = (id: string) => {
     navigate(`/details/${id}`);
   };
@@ -87,10 +89,6 @@ function HomeView() {
       : setShowConfirmModal(!showConfirmModal);
   };
 
-  const filesToDownload = Math.min(
-    rows.length - page * rowsPerPage,
-    rowsPerPage
-  );
 
   const columns = [
     { label: "Nombre", accessor: "name" },
@@ -170,7 +168,7 @@ function HomeView() {
             onClose={handleConfirmModal}
             onConfirm={handleConfirm}
             alert={"Desea descargar el archivo?"}
-            message={`Se descargará los datos de ${filesToDownload} usuarios de la lista`}
+            message={`Se descargará los datos de ${calculateItemsToProcess(rows.length, page, rowsPerPage)} usuarios de la lista`}
           />
         </div>
       )}

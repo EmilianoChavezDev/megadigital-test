@@ -122,7 +122,7 @@ const CustomTable = <T,>({
         count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onPageChange={onPageChange ? onPageChange : () => {}}
+        onPageChange={onPageChange ? onPageChange : () => { }}
         onRowsPerPageChange={onRowsPerPageChange}
         className="table-pagination"
       />
