@@ -30,7 +30,7 @@ const UserDetailsView: React.FC = () => {
   const { data, loading } = useGetAxios<Album[]>("/albums");
   const { data: usuarios = null } = useGetAxios<User>(`/users/${id}`);
 
-  const [album, setAlbum] = useState<Album[]>([]);
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [showGraphicsModal, setShowGraphicsModal] = useState(false);
@@ -38,14 +38,13 @@ const UserDetailsView: React.FC = () => {
   const [albumName, setAlbumName] = useState<string>("");
 
   useEffect(() => {
-    // Cargar todos los albunes del usuario en la lista
-    const userId = Number(id);
-    const filtrarAlbum = data?.filter(
-      (album: Album) => album.userId === userId
-    );
-    setAlbum(filtrarAlbum || []);
-  }, [data]);
+    if (data && id) {
+      const userAlbums = data.filter((album) => album.userId === Number(id));
+      setAlbums(userAlbums);
+    }
+  }, [data, id]);
 
+  // funciones de paginacion
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -53,14 +52,14 @@ const UserDetailsView: React.FC = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
+  const handleRowsPerPageChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleImagesModal = () => {
+  const toggleImagesModal = () => {
     setShowGraphicsModal(!showGraphicsModal);
   };
 
@@ -69,7 +68,7 @@ const UserDetailsView: React.FC = () => {
     {
       icon: <VisibilityIcon />,
       onClick: (row: Album) => {
-        handleImagesModal(), setAlbumName(row.title), setAlbumId(row.id);
+        toggleImagesModal(), setAlbumName(row.title), setAlbumId(row.id);
       },
       label: "Ver Album",
     },
@@ -78,20 +77,8 @@ const UserDetailsView: React.FC = () => {
   return (
     <div className="main">
       {loading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          <CircularProgress
-            color="secondary"
-            sx={{
-              display: "flex",
-            }}
-          />
+        <div className="loading-container">
+          <CircularProgress color="secondary" />
         </div>
       ) : (
         <div>
@@ -131,17 +118,17 @@ const UserDetailsView: React.FC = () => {
 
             <CustomTable
               columns={columns}
-              data={album}
+              data={albums}
               page={page}
               rowsPerPage={rowsPerPage}
               onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
+              onRowsPerPageChange={handleRowsPerPageChange}
               actions={actions}
             />
           </div>
           <ImagesModal
             show={showGraphicsModal}
-            onClose={handleImagesModal}
+            onClose={toggleImagesModal}
             albumId={albumId}
             albumName={albumName}
           />

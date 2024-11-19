@@ -37,15 +37,7 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
   const [selectedPhoto, setSelectedPhoto] = useState<Photos | null>(null);
 
   useEffect(() => {
-    const formatearPhotos =
-      data?.map((data: Photos) => ({
-        albumId: data.albumId,
-        id: data.id,
-        title: data.title,
-        url: data.url,
-        thumbnailUrl: data.thumbnailUrl,
-      })) || [];
-    setPhotos(formatearPhotos);
+    setPhotos(data || []);
   }, [data]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -82,20 +74,8 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
         }}
       >
         {loading ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100vh",
-            }}
-          >
-            <CircularProgress
-              color="secondary"
-              sx={{
-                display: "flex",
-              }}
-            />
+          <div className="loading-container">
+            <CircularProgress color="secondary" />
           </div>
         ) : (
           <Box
@@ -131,7 +111,6 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
                   sx={{
                     marginBottom: "20px",
                     fontFamily: "'Source Sans Pro', sans-serif",
-
                   }}
                 >
                   {photos?.length} foto(s)
@@ -155,7 +134,7 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", // Grid responsivo
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
                 gap: "1rem",
                 margin: "1rem",
               }}

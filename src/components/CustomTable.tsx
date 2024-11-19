@@ -35,7 +35,7 @@ interface TableProps<T> {
 const CustomTable = <T,>({
   columns,
   data,
-  rowsPerPageOptions = [5, 10, 25],
+  rowsPerPageOptions = [5, 10, 25, 50],
   page = 0,
   rowsPerPage = 5,
   onPageChange,
@@ -46,12 +46,7 @@ const CustomTable = <T,>({
     <div className="main-container-table">
       <div className="container-table">
         <TableContainer component={Paper} className="table-container">
-          <Table
-            sx={{
-              fontFamily: "'Source Sans Pro', sans-serif",
-            }}
-            stickyHeader
-          >
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -61,6 +56,7 @@ const CustomTable = <T,>({
                     sx={{
                       color: "white",
                       backgroundColor: "#7B183E",
+                      fontFamily: "'Source Sans Pro', sans-serif",
                     }}
                   >
                     {column.label}
@@ -72,6 +68,7 @@ const CustomTable = <T,>({
                     sx={{
                       color: "white",
                       backgroundColor: "#7B183E",
+                      fontFamily: "'Source Sans Pro', sans-serif",
                     }}
                   >
                     Acciones
@@ -92,7 +89,13 @@ const CustomTable = <T,>({
                     }}
                   >
                     {columns.map((column) => (
-                      <TableCell key={column.accessor} align="center">
+                      <TableCell
+                        key={column.accessor}
+                        align="center"
+                        sx={{
+                          fontFamily: "'Source Sans Pro', sans-serif",
+                        }}
+                      >
                         {getNestedValue(row, column.accessor)}{" "}
                       </TableCell>
                     ))}
@@ -122,7 +125,7 @@ const CustomTable = <T,>({
         count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onPageChange={onPageChange ? onPageChange : () => { }}
+        onPageChange={onPageChange ? onPageChange : () => {}}
         onRowsPerPageChange={onRowsPerPageChange}
         className="table-pagination"
       />

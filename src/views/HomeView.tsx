@@ -40,18 +40,18 @@ function HomeView() {
 
   useEffect(() => {
     if (data) {
-      const formatearDatos = data.map((user: User) => ({
-        id: user.id,
-        name: user.name,
-        username: user.username,
-        email: user.email,
-        phone: user.phone,
-        address: {
-          city: user.address.city,
-        },
-      }));
-
-      setRows(formatearDatos);
+      setRows(
+        data.map(({ id, name, username, email, phone, address }) => ({
+          id,
+          name,
+          username,
+          email,
+          phone,
+          address: {
+            city: address.city,
+          },
+        }))
+      );
     }
   }, [data]);
 
@@ -69,27 +69,34 @@ function HomeView() {
     setPage(0);
   };
 
-
   // nos dirige a la pagina de detalles del usuario
   const handleClickClient = (id: string) => {
     navigate(`/details/${id}`);
   };
 
-  const handleGraphicsModal = () => {
-    setShowGraphicsModal(!showGraphicsModal);
-  };
-
-  const handleConfirmModal = () => {
-    setShowConfirmModal(!showConfirmModal);
+  const toggleModal = (modal: string) => {
+    if (modal === "graphics") {
+      setShowGraphicsModal((prev) => !prev);
+    } else if (modal === "confirm") {
+      setShowConfirmModal((prev) => !prev);
+    }
   };
 
   const handleConfirm = (confirmed: boolean) => {
+    const dataToExport = rows
+      .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+      .map(({ id, ...rest }) => rest);
+
     confirmed
-      ? exportToExcel(rows.slice(0, rowsPerPage))
+      ? exportToExcel(
+          dataToExport,
+          "Lista de Usuarios.xlsx",
+          "Reporte de Usuarios"
+        )
       : setShowConfirmModal(!showConfirmModal);
   };
 
-
+  // columnas props para mi custom table
   const columns = [
     { label: "Nombre", accessor: "name" },
     { label: "Username", accessor: "username" },
@@ -132,15 +139,21 @@ function HomeView() {
           <div className="buttons-container">
             <Button
               variant="contained"
-              onClick={() => handleConfirmModal()}
+              onClick={() => toggleModal("confirm")}
               startIcon={<FileDownloadIcon />}
+              sx={{
+                fontFamily: "'Source Sans Pro', sans-serif",
+              }}
             >
               Exportar a Excel
             </Button>
             <Button
               variant="contained"
-              onClick={() => handleGraphicsModal()}
+              onClick={() => toggleModal("graphics")}
               startIcon={<AnalyticsIcon />}
+              sx={{
+                fontFamily: "'Source Sans Pro', sans-serif",
+              }}
             >
               Reportes
             </Button>
@@ -159,16 +172,20 @@ function HomeView() {
           {/* Modales */}
           <GraphicsModal
             show={showGraphicsModal}
-            onClose={handleGraphicsModal}
+            onClose={() => setShowGraphicsModal(false)}
             users={rows}
             posts={posteoList || []}
           />
           <ConfirmModal
             show={showConfirmModal}
-            onClose={handleConfirmModal}
+            onClose={() => setShowConfirmModal(false)}
             onConfirm={handleConfirm}
-            alert={"Desea descargar el archivo?"}
-            message={`Se descargará los datos de ${calculateItemsToProcess(rows.length, page, rowsPerPage)} usuarios de la lista`}
+            alert="¿Desea descargar el archivo?"
+            message={`Se descargará los datos de ${calculateItemsToProcess(
+              rows.length,
+              page,
+              rowsPerPage
+            )} usuarios de la lista`}
           />
         </div>
       )}
