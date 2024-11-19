@@ -1,45 +1,67 @@
-Prueba Tecnica de Megadigital
+# Proyecto: Prueba Tecnica para Megadigital
 
-## Tecnologías utilizadas
-
-- **React**: Biblioteca para construir interfaces de usuario interactivas.
-- **Vite**: Herramienta de construcción rápida para proyectos de React.
-- **TypeScript**: Superset de JavaScript que agrega tipado estático.
-- **Material UI**: Biblioteca de componentes React para diseños modernos y responsivos.
+Este proyecto es una aplicación web desarrollada como parte de una prueba técnica en desarrollo frontend. Fue creado utilizando **React.js** con la configuración de **Vite**, estilizado con **Material-UI** y **CSS puro**.
 
 
-## Instalación
+## 🛠️ Tecnologías utilizadas
 
-1. Clona este repositorio:
+- **React.js**
+- **Vite**
+- **Material-UI**
+- **CSS puro**
+
+---
+
+## 📦 Instalación
+
+Sigue estos pasos para clonar y ejecutar el proyecto localmente:
+
+1. **Clonar el repositorio**
 
    ```bash
-   git clone <url-del-repositorio>
+   git clone https://github.com/eemilianomiranda/megadigital-test.git
+   cd megadigital-test
    ```
 
-2. Navega al directorio del proyecto:
-
-   ```bash
-   cd nombre-del-repositorio
-   ```
-
-3. Instala las dependencias:
-
-   Usando **npm**:
+2. **Instalar dependencias**  
 
    ```bash
    npm install
    ```
 
-   O usando **yarn**:
+3. **Ejecutar la aplicación en modo desarrollo**
 
    ```bash
-   yarn install
+   npm run dev
    ```
 
 
-## Ejecución en modo de desarrollo
 
-Para iniciar la aplicación en modo de desarrollo, ejecuta el siguiente comando:
+## 📂 Estructura del proyecto
 
-```bash
-npm run dev
+```plaintext
+src/
+├── components/     # Componentes reutilizables
+├── hooks/          # Consultas a API
+├── views/          # Páginas de la aplicacion
+├── utils/          # Funciones de ayuda
+├── App.tsx         # Componente principal de la aplicación
+└── index.css      # Archivo CSS principal de la aplicacion
+```
+---
+
+
+## 📜 Licencia
+
+Este proyecto está bajo la licencia [MIT](LICENSE). Siéntete libre de usarlo y adaptarlo.
+
+---
+
+## 📧 Contacto
+
+Puedes contactarme en:
+
+- **Correo**: [eemirandachavez@gmail.com](mailto:eemirandachavez@gmail.com)
+
+---
+
