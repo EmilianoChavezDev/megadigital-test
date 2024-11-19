@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;600&display=swap");
+
+
 body {
   margin: 0;
   font-family: 'Source Sans Pro', sans-serif;
@@ -252,7 +255,6 @@ code {
   background-color: white;
   overflow-y: auto;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-  /* Simula el boxShadow de 24 */
   border-radius: 1rem;
   box-sizing: border-box;
 }
@@ -260,6 +262,19 @@ code {
 .container-modal-image::-webkit-scrollbar {
   display: none;
 }
+
+.header-container-image {
+  display: flex;
+  justify-content: space-between;
+  background-color: #7B183E;
+  padding: 1rem;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+}
+
 
 
 @media (min-width: 300px) and (max-width: 500px) {
@@ -269,18 +284,20 @@ code {
     align-items: center;
   }
 
-  .header-container-image span {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
-  }
 
   .header-container-image div {
     display: flex;
     align-items: center;
     margin: 0;
     white-space: nowrap;
+    font-family: "Oswald", sans-serif;
+  }
+
+  .header-container-data-image {
+    display: flex;
+    flex-direction: column;
+    font-size: 100;
   }
 
   .modal-album-name {
@@ -309,10 +326,6 @@ code {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-.header-container-image {
-  display: flex;
-  justify-content: space-between;
-}
 
 
 /*Zoom de la imagen*/
@@ -401,4 +414,117 @@ code {
 
 .close-button:hover {
   background-color: #0056b3;
+}
+
+
+
+/* estilos de la card */
+
+body {
+  font-family: "Oswald", sans-serif;
+  background-color: #7B183E;
+}
+
+.card {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  margin: 0.7rem auto;
+  transition: ease all 2.3s;
+  perspective: 1200px;
+  border-radius: 1rem;
+}
+
+.card:hover .cover {
+  transform: rotateX(0deg) rotateY(-180deg);
+}
+
+.card:hover .cover:before {
+  transform: translateZ(30px);
+}
+
+.card:hover .cover:after {
+  background-color: black;
+}
+
+
+.card:hover .cover .price {
+  transform: translateZ(60px);
+}
+
+.card:hover .cover button {
+  transform: translateZ(-60px) rotatey(-180deg);
+}
+
+.cover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: ease all 2.3s;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.cover:after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 2;
+  transition: ease all 1.3s;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+}
+
+
+.cover span {
+  font-family: "Oswald", sans-serif;
+  font-weight: 100;
+  position: absolute;
+  color: white;
+  transform-style: preserve-3d;
+  transition: ease all 2.3s;
+  z-index: 3;
+  font-size: 1rem;
+  padding: 1rem;
+  text-align: center;
+  transform: translateZ(0px);
+}
+
+
+.card-back {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #7B183E;
+  transform-style: preserve-3d;
+  transition: ease all 2.3s;
+  transform: translateZ(-1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+}
+
+.card-back button {
+  transform-style: preserve-3d;
+  transition: ease transform 2.3s, ease background 0.5s;
+  transform: translateZ(-1px) rotatey(-180deg);
+  background: transparent;
+  border: 1px solid white;
+  font-weight: 200;
+  font-size: 1.3em;
+  color: white;
+  padding: 14px 32px;
+  outline: none;
+  text-decoration: none;
+}
+
+.card-back button:hover {
+  background-color: black;
+  color: white;
 }

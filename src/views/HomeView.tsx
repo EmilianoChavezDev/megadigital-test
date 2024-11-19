@@ -33,7 +33,7 @@ function HomeView() {
   const { data: posteoList } = useGetAxios<Post[]>("/posts");
   const [rows, setRows] = useState<User[]>([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const navigate = useNavigate();
   const [showGraphicsModal, setShowGraphicsModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);

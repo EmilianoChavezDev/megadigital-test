@@ -32,7 +32,7 @@ const UserDetailsView: React.FC = () => {
 
   const [album, setAlbum] = useState<Album[]>([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [showGraphicsModal, setShowGraphicsModal] = useState(false);
   const [albumId, setAlbumId] = useState<number>(0);
   const [albumName, setAlbumName] = useState<string>("");

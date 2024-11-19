@@ -2,15 +2,12 @@ import {
   Modal,
   Box,
   Typography,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
   CircularProgress,
   TablePagination,
 } from "@mui/material";
 import useGetAxios from "../hooks/useGetAxios";
 import { useEffect, useState } from "react";
+import ImageZoom from "./ImageZoom";
 
 interface Photos {
   albumId: number;
@@ -36,9 +33,9 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
   const { data, loading } = useGetAxios<Photos[]>(`/photos?albumId=${albumId}`);
   const [photos, setPhotos] = useState<Photos[]>([]);
   const [resultado, setResultado] = useState(0);
-  const [selectedPhoto, setSelectedPhoto] = useState<Photos | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [selectedPhoto, setSelectedPhoto] = useState<Photos | null>(null);
 
   useEffect(() => {
     const formatearPhotos =
@@ -53,20 +50,10 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
     setPhotos(formatearPhotos);
   }, [data]);
 
-  const handlePhotoClick = (photo: Photos) => {
-    setSelectedPhoto(photo);
-  };
-
-  const handleCloseZoomModal = () => {
-    setSelectedPhoto(null);
-  };
-
-  // Función para cambiar de página
   const handleChangePage = (event: unknown, newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  // Función para cambiar el número de fotos por página
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -79,6 +66,10 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
     currentPage * rowsPerPage + rowsPerPage
   );
 
+  const handleZoomModal = () => {
+    setSelectedPhoto(null);
+  };
+
   return (
     <>
       <Modal
@@ -86,6 +77,11 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
         onClose={onClose}
         aria-labelledby="modal-graphics"
         aria-describedby="modal-description"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         {loading ? (
           <div
@@ -104,160 +100,97 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
             />
           </div>
         ) : (
-          <Box className="container-modal-image">
-            {/** Este es el titulo */}
-            <Box
-              sx={{
-                position: "sticky",
-                top: 0,
-                backgroundColor: "#7B183E",
-                zIndex: 10,
-                p: 2,
-                borderBottom: "1px solid #ddd",
-              }}
-            >
-              <div className="header-container-image">
-                <span>
-                  <Typography id="modal-title" variant="h6" component="h2">
-                    <span className="modal-album-name">{albumName}</span>
-                  </Typography>
-
-                  <Typography className="modal-album-name-result">
-                    {resultado} foto(s)
-                  </Typography>
-                </span>
-                <TablePagination
-                  component="div"
-                  count={photos.length}
-                  page={currentPage}
-                  onPageChange={handleChangePage}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  rowsPerPageOptions={[5, 10, 25, 100]}
-                  className="pagination-image-modal"
+          <Box
+            sx={{
+              height: "80%",
+              width: "90%",
+              maxWidth: "90%",
+              backgroundColor: "background.paper",
+              borderRadius: "8px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
+              overflowY: "scroll",
+              "&::-webkit-scrollbar": {
+                width: "0px",
+              },
+            }}
+          >
+            <div className="header-container-image">
+              <div className="header-container-data-image">
+                <Typography
+                  id="modal-title"
+                  variant="h6"
+                  component="h2"
                   sx={{
                     color: "white",
+                    marginBottom: "10px",
+                    fontFamily: "'Oswald', sans-serif",
                   }}
-                />
-              </div>
-            </Box>
+                >
+                  {albumName}
+                </Typography>
 
-            <Card
+                <Typography
+                  className="modal-album-name-result"
+                  sx={{
+                    marginBottom: "20px",
+                  }}
+                >
+                  {resultado} foto(s)
+                </Typography>
+              </div>
+
+              <TablePagination
+                component="div"
+                count={photos.length}
+                page={currentPage}
+                onPageChange={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                rowsPerPageOptions={[5, 10, 20, 50]}
+                sx={{
+                  color: "white",
+                }}
+              />
+            </div>
+
+            <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                gap: "2rem",
-                alignItems: "stretch",
-                borderRadius: "1rem",
-                boxShadow: 0,
-                p: 3,
-                overflowY: "auto",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", // Grid responsivo
+                gap: "1rem",
+                margin: "1rem",
               }}
             >
               {paginatedPhotos?.map((photo) => (
-                <CardActionArea
-                  key={photo.id}
-                  onClick={() => handlePhotoClick(photo)}
-                  sx={{
-                    width: "100%",
-                    maxWidth: "250px",
-                    margin: "0 auto",
-                    boxShadow: 2,
-                    borderRadius: "0.5rem",
-                    height: "350px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    position: "relative",
-                    overflow: "hidden",
-                    "&:hover": {
-                      transform: "scale(1.05)",
-                      transition: "transform 0.2s ease-in-out",
-                    },
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    image={`${photo.url}`}
-                    alt={`${photo.title}`}
-                    sx={{
-                      width: "100%",
-                      height: "250px",
-                      objectFit: "cover",
-                      borderTopLeftRadius: "0.5rem",
-                      borderTopRightRadius: "0.5rem",
+                <div className="card" key={photo.id}>
+                  <div
+                    className={`cover`}
+                    style={{
+                      backgroundImage: `url(${photo.url})`,
+                      height: "300px",
+                      borderRadius: "1rem",
                     }}
-                  />
-                  <CardContent sx={{ flex: "1 1 auto" }}>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                      }}
-                    >
-                      {photo.title}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
+                  >
+                    <span className="card-title-span">{photo.title}</span>
+                    <div className="card-back">
+                      <button onClick={() => setSelectedPhoto(photo)}>
+                        Ampliar vista
+                      </button>
+                    </div>
+                  </div>
+                </div>
               ))}
-            </Card>
+            </Box>
           </Box>
         )}
       </Modal>
 
       {/* Modal para zoom de imagen */}
-      <Modal
+      <ImageZoom
         open={!!selectedPhoto}
-        onClose={handleCloseZoomModal}
-        aria-labelledby="zoom-modal"
-        aria-describedby="zoom-modal-description"
-      >
-        <Box className="zoom-modal-image">
-          {selectedPhoto && (
-            <div
-              style={{
-                display: "flex",
-              }}
-            >
-              <CardMedia
-                component="img"
-                image={`${selectedPhoto.url}`}
-                alt={`${selectedPhoto.title}`}
-                sx={{
-                  width: "60%",
-                  height: "500px",
-                  objectFit: "cover",
-                  borderRadius: "1rem",
-                }}
-              />
-              <Typography
-                variant="h6"
-                sx={{
-                  textAlign: "center",
-                  p: 2,
-                  color: "#868686",
-                  fontFamily: "'Source Sans Pro', sans-serif",
-                }}
-              >
-                <span
-                  style={{
-                    color: "black",
-                    textTransform: "lowercase",
-                    fontSize: "100",
-                  }}
-                >
-                  Titulo:
-                </span>
-                {selectedPhoto.title}
-              </Typography>
-            </div>
-          )}
-        </Box>
-      </Modal>
+        onClose={handleZoomModal}
+        photo={selectedPhoto || undefined}
+      />
     </>
   );
 };
