@@ -7,9 +7,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import Tooltip from "@mui/material/Tooltip";
+import { getNestedValue } from "../utils";
+
+interface Action<T> {
+  icon: React.ReactNode;
+  onClick: (row: T) => void;
+  label: string;
+}
 
 interface TableProps<T> {
-  columns: { label: string; accessor: keyof T }[];
+  columns: { label: string; accessor: string }[];
   data: T[];
   rowsPerPageOptions?: number[];
   page?: number;
@@ -21,6 +29,7 @@ interface TableProps<T> {
   onRowsPerPageChange?: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  actions?: Action<T>[];
 }
 
 const CustomTable = <T,>({
@@ -31,45 +40,82 @@ const CustomTable = <T,>({
   rowsPerPage = 5,
   onPageChange,
   onRowsPerPageChange,
+  actions,
 }: TableProps<T>) => {
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow
+    <div className="main-container-table">
+      <div className="container-table">
+        <TableContainer component={Paper} className="table-container">
+          <Table
             sx={{
-              backgroundColor: "#7B183E",
+              fontFamily: "'Source Sans Pro', sans-serif",
             }}
+            stickyHeader
           >
-            {columns.map((column) => (
-              <TableCell
-                key={String(column.accessor)}
-                align="center"
-                sx={{
-                  color: "white",
-                }}
-              >
-                {/* Mostrar el encabezado de la columna */}
-                {column.label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row, index) => (
-              <TableRow key={index}>
+            <TableHead>
+              <TableRow>
                 {columns.map((column) => (
-                  <TableCell key={String(column.accessor)} align="center">
-                    {/* Asegúrate de convertir el valor a una cadena */}
-                    {String(row[column.accessor])}
+                  <TableCell
+                    key={column.accessor}
+                    align="center"
+                    sx={{
+                      color: "white",
+                      backgroundColor: "#7B183E",
+                    }}
+                  >
+                    {column.label}
                   </TableCell>
                 ))}
+                {actions && (
+                  <TableCell
+                    align="center"
+                    sx={{
+                      color: "white",
+                      backgroundColor: "#7B183E",
+                    }}
+                  >
+                    Acciones
+                  </TableCell>
+                )}
               </TableRow>
-            ))}
-        </TableBody>
-      </Table>
+            </TableHead>
+            <TableBody>
+              {data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{
+                      ":hover": {
+                        backgroundColor: "#f5f5f5",
+                      },
+                    }}
+                  >
+                    {columns.map((column) => (
+                      <TableCell key={column.accessor} align="center">
+                        {getNestedValue(row, column.accessor)}{" "}
+                      </TableCell>
+                    ))}
+                    {actions && (
+                      <TableCell align="center">
+                        {actions.map((action, idx) => (
+                          <Tooltip key={idx} title={action.label}>
+                            <span
+                              onClick={() => action.onClick(row)}
+                              style={{ cursor: "pointer", margin: "0 5px" }}
+                            >
+                              {action.icon}
+                            </span>
+                          </Tooltip>
+                        ))}
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
       <TablePagination
         rowsPerPageOptions={rowsPerPageOptions}
         component="div"
@@ -78,8 +124,9 @@ const CustomTable = <T,>({
         page={page}
         onPageChange={onPageChange ? onPageChange : () => {}}
         onRowsPerPageChange={onRowsPerPageChange}
+        className="table-pagination"
       />
-    </TableContainer>
+    </div>
   );
 };
 

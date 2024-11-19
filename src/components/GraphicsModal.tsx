@@ -27,21 +27,6 @@ interface GraphicsModalProps {
   posts: Post[];
 }
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "90%",
-  height: "40%",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  overflowY: "auto",
-  borderRadius: "1rem",
-};
-
 const GraphicsModal: React.FC<GraphicsModalProps> = ({
   show,
   onClose,
@@ -68,25 +53,16 @@ const GraphicsModal: React.FC<GraphicsModalProps> = ({
       aria-labelledby="modal-graphics"
       aria-describedby="modal-description"
     >
-      <Box sx={style}>
-        <Typography
-          id="modal-title"
-          variant="h6"
-          component="h2"
-          sx={{
-            fontWeight: "bold",
-            textAlign: "center",
-           
-          }}
-        >
-          Informe sobre publicaciones de usuarios
+      <Box className="graphics-container">
+        <Typography id="modal-title" variant="h6" component="h2">
+          Reporte sobre publicaciones de usuarios
         </Typography>
 
         <BarChart
           series={[{ data, label: "Cantidad de posteos", color: "#7B183E" }]}
           height={260}
           xAxis={[{ data: userNames, scaleType: "band" }]}
-          margin={{ top: 70, bottom: 40, left: 20, right: 10 }}
+          margin={{ top: 60, bottom: 20, left: 10, right: 5 }}
           sx={{
             color: "#7B183E",
           }}

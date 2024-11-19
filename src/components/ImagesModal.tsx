@@ -22,39 +22,10 @@ interface Photos {
 
 interface GraphicsModalProps {
   show: boolean;
-  onClose?: (id: number, title: string) => void;
+  onClose?: () => void;
   albumId: number;
   albumName: string;
 }
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "90%",
-  height: "80%",
-  bgcolor: "white",
-  overflowY: "auto",
-  boxShadow: 24,
-  borderRadius: "1rem",
-  boxSizing: "border-box",
-  "&::-webkit-scrollbar": {
-    display: "none",
-  },
-};
-
-const zoomStyle = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "40%",
-  height: "40%",
-  bgcolor: "white",
-  boxShadow: 24,
-  borderRadius: "1rem",
-};
 
 const ImagesModal: React.FC<GraphicsModalProps> = ({
   show,
@@ -133,7 +104,7 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
             />
           </div>
         ) : (
-          <Box sx={style}>
+          <Box className="container-modal-image">
             {/** Este es el titulo */}
             <Box
               sx={{
@@ -145,13 +116,8 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
                 borderBottom: "1px solid #ddd",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div>
+              <div className="header-container-image">
+                <span>
                   <Typography id="modal-title" variant="h6" component="h2">
                     <span className="modal-album-name">{albumName}</span>
                   </Typography>
@@ -159,7 +125,7 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
                   <Typography className="modal-album-name-result">
                     {resultado} foto(s)
                   </Typography>
-                </div>
+                </span>
                 <TablePagination
                   component="div"
                   count={photos.length}
@@ -168,6 +134,7 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
                   rowsPerPage={rowsPerPage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                   rowsPerPageOptions={[5, 10, 25, 100]}
+                  className="pagination-image-modal"
                   sx={{
                     color: "white",
                   }}
@@ -180,7 +147,7 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
                 gap: "2rem",
-                alignItems: "stretch", // Ajusta la altura de cada tarjeta automáticamente
+                alignItems: "stretch",
                 borderRadius: "1rem",
                 boxShadow: 0,
                 p: 3,
@@ -249,7 +216,7 @@ const ImagesModal: React.FC<GraphicsModalProps> = ({
         aria-labelledby="zoom-modal"
         aria-describedby="zoom-modal-description"
       >
-        <Box sx={zoomStyle}>
+        <Box className="zoom-modal-image">
           {selectedPhoto && (
             <div
               style={{

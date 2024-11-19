@@ -1,19 +1,12 @@
 import { useParams } from "react-router-dom";
 import useGetAxios from "../hooks/useGetAxios";
 import { useEffect, useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import TablePagination from "@mui/material/TablePagination";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Link as RouterLink } from "react-router-dom";
-import { Breadcrumbs, CircularProgress, Link, Tooltip } from "@mui/material";
+import { Breadcrumbs, CircularProgress, Link } from "@mui/material";
 import ImagesModal from "../components/ImagesModal";
+import CustomTable from "../components/CustomTable";
 
 interface Album {
   userId: number;
@@ -67,11 +60,20 @@ const UserDetailsView: React.FC = () => {
     setPage(0);
   };
 
-  const handleImagesModal = (id: number, title: string) => {
-    setAlbumId(id);
-    setAlbumName(title);
+  const handleImagesModal = () => {
     setShowGraphicsModal(!showGraphicsModal);
   };
+
+  const columns = [{ label: "Álbum", accessor: "title" }];
+  const actions = [
+    {
+      icon: <VisibilityIcon />,
+      onClick: (row: Album) => {
+        handleImagesModal(), setAlbumName(row.title), setAlbumId(row.id);
+      },
+      label: "Ver Album",
+    },
+  ];
 
   return (
     <div className="main">
@@ -92,7 +94,7 @@ const UserDetailsView: React.FC = () => {
           />
         </div>
       ) : (
-        <div className="">
+        <div>
           <div>
             <div className="details-container-header">
               <Breadcrumbs
@@ -127,82 +129,15 @@ const UserDetailsView: React.FC = () => {
               <span>{usuarios?.phone}</span>
             </div>
 
-            <div className="table-container">
-              <TableContainer
-                component={Paper}
-                className="table-container-container"
-              >
-                <Table
-                  stickyHeader
-                  sx={{
-                    minWidth: 650,
-                    fontFamily: "'Source Sans Pro', sans-serif",
-                  }}
-                >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          color: "white",
-                          backgroundColor: "#7B183E",
-                        }}
-                      >
-                        Álbum
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          color: "white",
-                          backgroundColor: "#7B183E",
-                        }}
-                      >
-                        Acciones
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {album
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .map((row) => (
-                        <TableRow
-                          key={row.id}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                            "&:hover": {
-                              backgroundColor: "#f5f5f5",
-                            },
-                          }}
-                        >
-                          <TableCell component="th" scope="row" align="left">
-                            {row.title}
-                          </TableCell>
-                          <TableCell
-                            align="center"
-                            onClick={() => handleImagesModal(row.id, row.title)}
-                          >
-                            <Tooltip title="Ver Album">
-                              <VisibilityIcon className="cursorPointer" />
-                            </Tooltip>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: "All", value: 100 }]}
-                component="div"
-                count={album.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </div>
+            <CustomTable
+              columns={columns}
+              data={album}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              actions={actions}
+            />
           </div>
           <ImagesModal
             show={showGraphicsModal}
